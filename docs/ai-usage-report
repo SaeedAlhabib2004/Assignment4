@@ -1,0 +1,45 @@
+# AI Usage Report 
+
+ 1. Summary
+This report documents how AI tools were integrated into the development of my personal portfolio website.  
+AI contributed to code generation, design decisions, debugging, and report drafting, and I ensured to do personal customization, understand the changes made by AI, and adhered to academic integrity
+
+2. AI Tools Utilized
+- Cursor – For code generation and active debugging.
+- ChatGPT - To explain certain concepts and generate some code.
+
+3. Detailed AI Usage Breakdown 
+# HTML Structure 
+- AI generated an initial HTML structure for a portfolio website. 
+- AI also provided a font CSS library that allowed me to use icons in my webpage.
+- I customized with resume data and changed the layout.  
+- AI then helped with adding some structural changes
+
+# CSS Design System & Styling
+- AI created a specific CSS structure based on the HTML code and my personal style preferences. 
+- I then finalized colors and spacing.  
+
+# JavaScript Functionality
+- I used AI to help me implement functionalities that are required by the assignment, by generating code and debugging my code.
+- I understood the generated code and improved it to my preferances. 
+- I also added error handling with some help from AI.
+
+#Other uses 
+- Used AI to provide the technical documentation report. 
+- Used AI to help explain code and outputs.
+4. Benefits of AI Integration
+- Efficiency: Much faster development time, without AI this assignment would take more than the allocated time.
+- Learning: User AI to learn how to better integrate Javascript with HTML. 
+- Quality: Helped to keep code quality consistent.
+
+5. Challenges
+- Sometimes I needed thorough explanations to fully understand AI-generated code, especially when it came to javascript.
+- AI code had a lot of errors and these errors would sometimes cause other errors throughout the code.
+- Changing something in AI code could result in errors throughout the rest of code.
+
+6. Learning Outcomes
+- Improved skills in HTML, CSS, and JavaScript 
+- Learned to effectively use AI tools for generating and debugging code. 
+- Learned how to better structure my projects and provide proper documentation. 
+
+  
