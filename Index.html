@@ -31,6 +31,11 @@
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
             </ul>
             <div class="nav-toggle" id="nav-toggle">
                 <span class="bar"></span>
@@ -44,7 +49,7 @@
             <div class="main-content">
                 <div class="content-text">
                     <h1 class="main-title">
-                        Hi, I'm <span class="text-accent">Saeed Alhabib</span>
+                        <span id="personalized-greeting">Good morning</span>, I'm <span class="text-accent">Saeed Alhabib</span>
                     </h1>
                 </div>
                 
@@ -149,6 +154,36 @@
                             <p><i class="fas fa-phone"></i> +966 56 805 6858</p>
                         </div>
                     </div>
+                    
+                    <div class="info-card" id="github-repos">
+                        <h4>Latest GitHub Repositories</h4>
+                        <div class="repos-list">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading repositories...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card" id="fun-fact">
+                        <h4>Did You Know?</h4>
+                        <div class="fact-content">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading fun fact...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card" id="daily-quote">
+                        <h4>Daily Inspiration</h4>
+                        <div class="quote-content">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading quote...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,8 +197,20 @@
                 <p class="section-subtitle">Here are some of my recent works</p>
             </div>
             
+            <!-- Project Controls -->
+            <div class="project-controls">
+                <div class="search-container">
+                    <input type="text" id="project-search" placeholder="Search projects..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web Projects</button>
+                </div>
+            </div>
+            
             <div class="projects-grid">
-                <div class="project-card" data-aos="fade-up">
+                <div class="project-card" data-category="ai" data-aos="fade-up">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-dumbbell"></i>
@@ -184,7 +231,7 @@
                     </div>
                 </div>
                 
-                <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="200">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-calendar-alt"></i>
@@ -205,7 +252,7 @@
                     </div>
                 </div>
                 
-                <div class="project-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="project-card" data-category="ai" data-aos="fade-up" data-aos-delay="400">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-chart-line"></i>
@@ -315,6 +362,6 @@
             </div>
         </div>
     </section>
-    <script src="Javascript/Script.js"></script>
+    <script src="js/Script.js"></script>
 </body>
 </html>

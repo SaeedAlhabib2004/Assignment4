@@ -1,45 +1,83 @@
 # AI Usage Report 
 
- 1. Summary
+## 1. Summary
 This report documents how AI tools were integrated into the development of my personal portfolio website.  
 AI contributed to code generation, design decisions, debugging, and report drafting, and I ensured to do personal customization, understand the changes made by AI, and adhered to academic integrity
 
-2. AI Tools Utilized
-- Cursor – For code generation and active debugging.
-- ChatGPT - To explain certain concepts and generate some code.
+## 2. AI Tools Utilized
+- Cursor – For code generation and active debugging
+- ChatGPT - To explain certain concepts and generate some code
 
-3. Detailed AI Usage Breakdown 
-# HTML Structure 
-- AI generated an initial HTML structure for a portfolio website. 
-- AI also provided a font CSS library that allowed me to use icons in my webpage.
-- I customized with resume data and changed the layout.  
+## 3. Detailed AI Usage Breakdown 
+
+### HTML Structure 
+- AI generated an initial HTML structure for a portfolio website
+- AI also provided a font CSS library that allowed me to use icons in my webpage
+- I customized with resume data and changed the layout
 - AI then helped with adding some structural changes
+- AI helped add dynamic content elements like personalized greeting spans, theme toggle buttons, and project filtering controls
 
-# CSS Design System & Styling
-- AI created a specific CSS structure based on the HTML code and my personal style preferences. 
-- I then finalized colors and spacing.  
+### CSS Design System & Styling
+- AI created a specific CSS structure based on the HTML code and my personal style preferences
+- I then finalized colors and spacing
+- AI helped implement comprehensive CSS dark mode system with proper color variables and theme switching
+- AI helped generate CSS animations including fadeInUp, slideIn, spin, and shake keyframes for interactive elements
+- AI helped create responsive design breakpoints and mobile-first CSS approach
+- AI helped implement hover effects and transitions for project cards, buttons, and interactive elements
+- AI helped fix character encoding issues by replacing Unicode bullet points with CSS-based circular bullets
 
-# JavaScript Functionality
-- I used AI to help me implement functionalities that are required by the assignment, by generating code and debugging my code.
-- I understood the generated code and improved it to my preferances. 
-- I also added error handling with some help from AI.
+### JavaScript Functionality
+- I used AI to help me implement functionalities that are required by the assignment, by generating code and debugging my code
+- I understood the generated code and improved it to my preferences
+- I also added error handling with some help from AI
+- AI helped implement personalized greeting system with time-based logic using JavaScript Date object
+- AI helped generate project filtering and live search functionality with real-time DOM manipulation
+- AI helped implement theme toggle system with localStorage persistence for dark/light mode
+- AI helped create comprehensive API integration system for GitHub repositories, inspirational quotes, and fun facts
+- AI helped implement fallback data systems for when external APIs fail due to CORS or network issues
+- AI helped generate form validation system with inline error messages and real-time feedback
+- AI helped create state management functions for loading, error, and empty states with visual feedback
+- AI helped implement toast notification system for user feedback and form submissions
+- AI helped generate throttled scroll handling and debounced search input for performance optimization
 
-#Other uses 
-- Used AI to provide the technical documentation report. 
-- Used AI to help explain code and outputs.
-4. Benefits of AI Integration
-- Efficiency: Much faster development time, without AI this assignment would take more than the allocated time.
-- Learning: User AI to learn how to better integrate Javascript with HTML. 
-- Quality: Helped to keep code quality consistent.
+### API Integration
+- AI helped integrate GitHub API to fetch and display user repositories with proper error handling
+- AI helped implement ZenQuotes API integration with local fallback quotes for inspirational content
+- AI helped create Useless Facts API integration with fallback facts for educational content
+- AI helped generate comprehensive error handling for CORS issues, network failures, and API rate limiting
 
-5. Challenges
-- Sometimes I needed thorough explanations to fully understand AI-generated code, especially when it came to javascript.
-- AI code had a lot of errors and these errors would sometimes cause other errors throughout the code.
-- Changing something in AI code could result in errors throughout the rest of code.
+### Error Handling and Debugging
+- AI helped identify and fix JavaScript file path issues (404 errors for Script.js)
+- AI helped resolve API reliability issues by switching to more stable endpoints and implementing fallbacks
+- AI helped fix dark mode styling issues where title colors weren't changing properly
 
-6. Learning Outcomes
-- Improved skills in HTML, CSS, and JavaScript 
-- Learned to effectively use AI tools for generating and debugging code. 
-- Learned how to better structure my projects and provide proper documentation. 
+### Other Uses 
+- Used AI to provide the technical documentation report
+- Used AI to help explain code and outputs
+- AI helped generate comprehensive technical documentation with API endpoints, data structures, and implementation details
+- AI helped create detailed code examples and JSON response structures for API documentation
+## 4. Benefits of AI Integration
+- Efficiency: Much faster development time, without AI this assignment would take more than the allocated time
+- Learning: Used AI to learn how to better integrate JavaScript with HTML and CSS
+- Quality: Helped to keep code quality consistent and implement best practices
+- Debugging: AI helped quickly identify and resolve complex issues like CORS problems and character encoding
+- Documentation: AI helped generate comprehensive technical documentation and code examples
+- API Integration: AI helped implement complex API integrations with proper error handling
+
+## 5. Challenges
+- Sometimes I needed thorough explanations to fully understand AI-generated code, especially when it came to JavaScript
+- AI code had a lot of errors and these errors would sometimes cause other errors throughout the code
+- Changing something in AI code could result in errors throughout the rest of codeg
+- I faced a lot of 404 errors
+- API reliability issues required switching endpoints and implementing fallbacks
+
+## 6. Learning Outcomes
+- Improved skills in HTML, CSS, and JavaScript
+- Learned to effectively use AI tools for generating and debugging code
+- Learned how to better structure my projects and provide proper documentation
+- Understanding of API integration patterns and error handling strategies
+- CSS dark mode implementation and theme switching techniques
+- Performance optimization techniques like throttling and debouncing
+- Character encoding issues and cross-browser compatibility solutions 
 
   

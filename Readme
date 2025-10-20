@@ -1,0 +1,19 @@
+# Personal Portfolio Website
+
+# Project Description
+This is my personal portfolio website, built to showcase my projects, skills, and experience.  
+It was designed with a modern, responsive layout and emphasizes accessibility, performance, and clean code structure.
+
+The website includes:
+- About Me section with personal introduction  
+- Projects section with detailed case studies  
+- Skills section categorized by technical expertise  
+- Contact form with validation and responsive UI  
+ Setup Instructions
+
+1.Clone the repository
+   Make sure you already have git downloaded 
+  Make an empty folder in your pc, then use the below command on your folder 
+   git clone https://github.com/SaeedAlhabib2004/portfolio-website.git
+   cd portfolio-website 
+2. Open html file using your browser 
