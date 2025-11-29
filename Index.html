@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Saeed Alhabib's Personal Portfolio - CS Student at KFUPM showcasing projects, skills, and experience">
+    <title>Saeed Alhabib - Portfolio</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <!-- Google Fonts -->
@@ -8,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -51,6 +55,9 @@
                     <h1 class="main-title">
                         <span id="personalized-greeting">Good morning</span>, I'm <span class="text-accent">Saeed Alhabib</span>
                     </h1>
+                    <div id="visitor-timer" class="visitor-timer">
+                        <i class="fas fa-clock"></i> <span id="timer-display">0:00</span>
+                    </div>
                 </div>
                 
                 <div class="content-sidebar">
@@ -155,6 +162,16 @@
                         </div>
                     </div>
                     
+                    <div class="info-card" id="weather-card">
+                        <h4>Current Weather</h4>
+                        <div class="weather-content">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading weather...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="info-card" id="github-repos">
                         <h4>Latest GitHub Repositories</h4>
                         <div class="repos-list">
@@ -195,80 +212,95 @@
             <div class="section-header">
                 <h2 class="section-title">My Projects</h2>
                 <p class="section-subtitle">Here are some of my recent works</p>
+                <button id="toggle-projects" class="btn-secondary toggle-section-btn">
+                    <i class="fas fa-eye"></i> <span id="toggle-text">Hide Projects</span>
+                </button>
             </div>
             
-            <!-- Project Controls -->
-            <div class="project-controls">
-                <div class="search-container">
-                    <input type="text" id="project-search" placeholder="Search projects..." class="search-input">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="web">Web Projects</button>
-                </div>
-            </div>
-            
-            <div class="projects-grid">
-                <div class="project-card" data-category="ai" data-aos="fade-up">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-dumbbell"></i>
-                        </div>
+            <div id="projects-container">
+                <!-- Project Controls -->
+                <div class="project-controls">
+                    <div class="search-container">
+                        <input type="text" id="project-search" placeholder="Search projects..." class="search-input">
+                        <i class="fas fa-search search-icon"></i>
                     </div>
-                    <div class="project-content">
-                        <h3 class="project-title">AI Gym Trainer</h3>
-                        <p class="project-description">
-                            <strong>Under development</strong> - A full-stack web application that utilizes a specialized fitness LLM to act as a virtual personal trainer. 
-                            Features personalized workout plans, form correction, and progress tracking.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">LLM</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                        </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="web">Web Projects</button>
+                        <button class="filter-btn" data-filter="ai">AI Projects</button>
+                    </div>
+                    <div class="sort-controls">
+                        <label for="sort-select">Sort by:</label>
+                        <select id="sort-select" class="sort-select">
+                            <option value="default">Default</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="category">Category</option>
+                        </select>
                     </div>
                 </div>
                 
-                <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-calendar-alt"></i>
+                <div class="projects-grid" id="projects-grid">
+                    <div class="project-card" data-category="ai" data-name="AI Gym Trainer" data-aos="fade-up">
+                        <div class="project-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">AI Gym Trainer</h3>
+                            <p class="project-description">
+                                <strong>Under development</strong> - A full-stack web application that utilizes a specialized fitness LLM to act as a virtual personal trainer. 
+                                Features personalized workout plans, form correction, and progress tracking.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">LLM</span>
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Event Management Platform</h3>
-                        <p class="project-description">
-                            A role-based event tracking system built with Flask and React. 
-                            Features user authentication, event creation, and real-time updates.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Flask</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">JWT</span>
+                    
+                    <div class="project-card" data-category="web" data-name="Event Management Platform" data-aos="fade-up" data-aos-delay="200">
+                        <div class="project-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Event Management Platform</h3>
+                            <p class="project-description">
+                                A role-based event tracking system built with Flask and React. 
+                                Features user authentication, event creation, and real-time updates.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                                <span class="tech-tag">JWT</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="project-card" data-category="ai" data-aos="fade-up" data-aos-delay="400">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-chart-line"></i>
+                    
+                    <div class="project-card" data-category="ai" data-name="LLM Analytics Dashboard" data-aos="fade-up" data-aos-delay="400">
+                        <div class="project-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">LLM Analytics Dashboard</h3>
-                        <p class="project-description">
-                            Full-stack analytics dashboard powered by GPT and SQL for restaurant operations. 
-                            Provides real-time insights and operational analytics.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">GPT API</span>
-                            <span class="tech-tag">SQL</span>
-                            <span class="tech-tag">Dashboard</span>
+                        <div class="project-content">
+                            <h3 class="project-title">LLM Analytics Dashboard</h3>
+                            <p class="project-description">
+                                Full-stack analytics dashboard powered by GPT and SQL for restaurant operations. 
+                                Provides real-time insights and operational analytics.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">GPT API</span>
+                                <span class="tech-tag">SQL</span>
+                                <span class="tech-tag">Dashboard</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -291,6 +323,17 @@
                         I'm always interested in discussing new opportunities, 
                         collaborating on projects, or just having a chat about technology and AI.
                     </p>
+                    
+                    <div class="visitor-name-section">
+                        <label for="visitor-name-input">Enter your name:</label>
+                        <div class="name-input-group">
+                            <input type="text" id="visitor-name-input" placeholder="Your name..." class="name-input">
+                            <button id="save-name-btn" class="btn-secondary save-name-btn">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div id="greeting-message" class="greeting-message"></div>
+                    </div>
                     
                     <div class="contact-methods">
                         <div class="contact-method">
@@ -338,7 +381,7 @@
                     <form id="contact-form" class="contact-form">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" name="name" required minlength="2">
                         </div>
                         
                         <div class="form-group">
@@ -348,7 +391,7 @@
                         
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
                         </div>
                         
                         <button type="submit" class="btn-primary form-submit">

@@ -1,4 +1,5 @@
-// Adds Javascript functionality after HTML file has loaded
+// Enhanced JavaScript for Portfolio Website - Assignment 3
+// Adds JavaScript functionality after HTML file has loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeScrollEffects();
@@ -6,45 +7,51 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDynamicContent();
     initializeThemeToggle();
     initializeProjectFeatures();
+    initializeVisitorTimer();
+    initializeVisitorName();
+    initializeSectionToggle();
 });
 
+// ==================== Navigation Functions ====================
 function initializeNavigation() { 
-  //initializing HTML elements as constants
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     const navbar = document.getElementById('navbar');
 
     // Mobile menu toggle
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-    });
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+    }
 
     // Close mobile menu when clicking on links
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
+            if (navToggle) navToggle.classList.remove('active');
         });
     });
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
+    // Navbar scroll effect with throttling
+    let lastScroll = 0;
+    window.addEventListener('scroll', throttle(function() {
         if (window.scrollY > 100) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+        lastScroll = window.scrollY;
+    }, 100));
 
     // Active link highlighting based on scroll position
-    window.addEventListener('scroll', highlightActiveSection);
+    window.addEventListener('scroll', throttle(highlightActiveSection, 100));
 }
 
 // Smooth Scrolling and Section Highlighting
 function initializeScrollEffects() {
-    // Select all elements that are class nav-link and have an href attribute that starts with #.
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
     navLinks.forEach(link => {
@@ -92,23 +99,23 @@ function highlightActiveSection() {
     });
 }
 
-// Contact Form Handling
+// ==================== Contact Form Handling ====================
 function initializeContactForm() {
     const contactForm = document.getElementById('contact-form');
     
     if (contactForm) {
         contactForm.addEventListener('submit', handleFormSubmission);
         
-        // Real-time validation
+        // Real-time validation with debouncing
         const inputs = contactForm.querySelectorAll('input, textarea');
         inputs.forEach(input => {
             input.addEventListener('blur', validateField);
-            input.addEventListener('input', clearFieldError);
+            input.addEventListener('input', debounce(clearFieldError, 300));
         });
     }
 }
 
-// Handle contact form submission
+// Handle contact form submission with enhanced validation
 function handleFormSubmission(e) {
     e.preventDefault();
     
@@ -117,9 +124,29 @@ function handleFormSubmission(e) {
     const btnText = submitBtn.querySelector('.btn-text');
     const btnLoading = submitBtn.querySelector('.btn-loading');
     
-    // Validate all fields
+    // Enhanced validation
     if (!validateForm(form)) {
-        alert('Please fill in all fields correctly.');
+        showToast('Please fill in all fields correctly.', 'error');
+        return;
+    }
+    
+    // Additional checks
+    const name = form.querySelector('#name').value.trim();
+    const email = form.querySelector('#email').value.trim();
+    const message = form.querySelector('#message').value.trim();
+    
+    if (name.length < 2) {
+        showToast('Name must be at least 2 characters long.', 'error');
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        showToast('Please enter a valid email address.', 'error');
+        return;
+    }
+    
+    if (message.length < 10) {
+        showToast('Message must be at least 10 characters long.', 'error');
         return;
     }
     
@@ -138,6 +165,10 @@ function handleFormSubmission(e) {
         formGroups.forEach(group => {
             const fieldMessage = group.querySelector('.field-message');
             if (fieldMessage) fieldMessage.remove();
+            const input = group.querySelector('input, textarea');
+            if (input) {
+                input.classList.remove('error', 'success');
+            }
         });
         
         // Reset button state
@@ -146,7 +177,7 @@ function handleFormSubmission(e) {
         btnLoading.style.display = 'none';
         
         // Show success message
-        alert('Thank you for your message! I will get back to you soon.');
+        showToast('Thank you for your message! I will get back to you soon.', 'success');
         
         // Log form data for demonstration
         const formData = new FormData(form);
@@ -157,7 +188,7 @@ function handleFormSubmission(e) {
     }, 2000);
 }
 
-// Validate form
+// Enhanced field validation
 function validateField(e) {
     const field = e.target;
     const value = field.value.trim();
@@ -166,16 +197,31 @@ function validateField(e) {
     field.classList.remove('error', 'success');
     removeFieldMessage(field);
     
-    // Validation
+    // Validation rules
     if (field.hasAttribute('required') && !value) {
         field.classList.add('error');
         showFieldMessage(field, 'This field is required', 'error');
         return false;
     }
     
+    // Name validation
+    if (field.id === 'name' && value && value.length < 2) {
+        field.classList.add('error');
+        showFieldMessage(field, 'Name must be at least 2 characters', 'error');
+        return false;
+    }
+    
+    // Email validation
     if (field.type === 'email' && value && !isValidEmail(value)) {
         field.classList.add('error');
         showFieldMessage(field, 'Please enter a valid email address', 'error');
+        return false;
+    }
+    
+    // Message validation
+    if (field.id === 'message' && value && value.length < 10) {
+        field.classList.add('error');
+        showFieldMessage(field, 'Message must be at least 10 characters', 'error');
         return false;
     }
     
@@ -234,18 +280,19 @@ function validateForm(form) {
     return isValid;
 }
 
-// Email validation 
+// Email validation with regex
 function isValidEmail(email) {
     const emailStructure = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailStructure.test(email);
 }
 
-// Dynamic Content Features
+// ==================== Dynamic Content Features ====================
 function initializeDynamicContent() {
     updatePersonalizedGreeting();
     fetchGitHubRepos();
     fetchFunFact();
     fetchDailyQuote();
+    fetchWeather();
 }
 
 // Personalized greeting based on time of day
@@ -264,6 +311,12 @@ function updatePersonalizedGreeting() {
         greeting = "Good evening";
     }
     
+    // Check if visitor name is stored
+    const visitorName = localStorage.getItem('visitorName');
+    if (visitorName) {
+        greeting += `, ${visitorName}`;
+    }
+    
     // Add smooth transition effect
     greetingElement.style.opacity = '0';
     setTimeout(() => {
@@ -272,7 +325,7 @@ function updatePersonalizedGreeting() {
     }, 200);
 }
 
-// Theme Toggle with Local Storage
+// ==================== Theme Toggle with Local Storage ====================
 function initializeThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -314,10 +367,11 @@ function updateThemeIcon(theme) {
     }
 }
 
-// Project Features (Filtering, Sorting, Search)
+// ==================== Project Features (Filtering, Sorting, Search) ====================
 function initializeProjectFeatures() {
     initializeProjectFiltering();
     initializeProjectSearch();
+    initializeProjectSorting();
 }
 
 function initializeProjectFiltering() {
@@ -343,8 +397,18 @@ function initializeProjectFiltering() {
                     card.style.display = 'none';
                 }
             });
+            
+            // Save filter preference
+            localStorage.setItem('projectFilter', filter);
         });
     });
+    
+    // Load saved filter
+    const savedFilter = localStorage.getItem('projectFilter');
+    if (savedFilter) {
+        const savedButton = document.querySelector(`[data-filter="${savedFilter}"]`);
+        if (savedButton) savedButton.click();
+    }
 }
 
 function initializeProjectSearch() {
@@ -353,7 +417,7 @@ function initializeProjectSearch() {
     
     if (!searchInput) return;
     
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', debounce(function() {
         const searchTerm = this.value.toLowerCase();
         
         projectCards.forEach(card => {
@@ -372,8 +436,68 @@ function initializeProjectSearch() {
                 card.style.display = 'none';
             }
         });
-    });
+    }, 300));
 }
+
+// New: Project Sorting Functionality
+function initializeProjectSorting() {
+    const sortSelect = document.getElementById('sort-select');
+    if (!sortSelect) return;
+    
+    sortSelect.addEventListener('change', function() {
+        const sortValue = this.value;
+        const projectsGrid = document.getElementById('projects-grid');
+        const projectCards = Array.from(document.querySelectorAll('.project-card'));
+        
+        // Filter visible cards only
+        const visibleCards = projectCards.filter(card => card.style.display !== 'none');
+        
+        let sortedCards;
+        
+        switch(sortValue) {
+            case 'name-asc':
+                sortedCards = visibleCards.sort((a, b) => {
+                    const nameA = a.dataset.name || a.querySelector('.project-title').textContent;
+                    const nameB = b.dataset.name || b.querySelector('.project-title').textContent;
+                    return nameA.localeCompare(nameB);
+                });
+                break;
+            case 'name-desc':
+                sortedCards = visibleCards.sort((a, b) => {
+                    const nameA = a.dataset.name || a.querySelector('.project-title').textContent;
+                    const nameB = b.dataset.name || b.querySelector('.project-title').textContent;
+                    return nameB.localeCompare(nameA);
+                });
+                break;
+            case 'category':
+                sortedCards = visibleCards.sort((a, b) => {
+                    const catA = a.dataset.category || '';
+                    const catB = b.dataset.category || '';
+                    return catA.localeCompare(catB);
+                });
+                break;
+            default:
+                sortedCards = visibleCards;
+        }
+        
+        // Re-append sorted cards
+        sortedCards.forEach(card => {
+            projectsGrid.appendChild(card);
+        });
+        
+        // Save sort preference
+        localStorage.setItem('projectSort', sortValue);
+    });
+    
+    // Load saved sort preference
+    const savedSort = localStorage.getItem('projectSort');
+    if (savedSort && sortSelect) {
+        sortSelect.value = savedSort;
+        sortSelect.dispatchEvent(new Event('change'));
+    }
+}
+
+// ==================== API Integration Functions ====================
 
 // GitHub API Integration
 async function fetchGitHubRepos() {
@@ -384,7 +508,6 @@ async function fetchGitHubRepos() {
     if (!reposList) return;
     
     try {
-        // Fetch latest repositories from GitHub API
         const response = await fetch('https://api.github.com/users/saeedalhabib/repos?sort=updated&per_page=3');
         
         if (!response.ok) {
@@ -421,6 +544,60 @@ function updateGitHubSection(repos) {
     `).join('');
 }
 
+// Weather API Integration (New)
+async function fetchWeather() {
+    const weatherCard = document.getElementById('weather-card');
+    if (!weatherCard) return;
+    
+    const weatherContent = weatherCard.querySelector('.weather-content');
+    if (!weatherContent) return;
+    
+    try {
+        // Using OpenWeatherMap API (free tier, no key required for basic usage)
+        // Using a free alternative: wttr.in
+        const response = await fetch('https://wttr.in/Khobar?format=j1');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.current_condition && data.current_condition[0]) {
+            const current = data.current_condition[0];
+            const temp = current.temp_C;
+            const desc = current.weatherDesc[0].value;
+            const humidity = current.humidity;
+            
+            updateWeatherSection(temp, desc, humidity);
+        } else {
+            throw new Error('Invalid weather data');
+        }
+    } catch (error) {
+        console.log('Weather API error:', error);
+        // Fallback weather data
+        updateWeatherSection(25, 'Partly Cloudy', 65);
+    }
+}
+
+function updateWeatherSection(temp, description, humidity) {
+    const weatherContent = document.querySelector('.weather-content');
+    if (!weatherContent) return;
+    
+    weatherContent.innerHTML = `
+        <div class="weather-card">
+            <div class="weather-icon">
+                <i class="fas fa-sun"></i>
+            </div>
+            <div class="temperature">${temp}°C</div>
+            <div class="description">${description}</div>
+            <div class="weather-details">
+                <span><i class="fas fa-tint"></i> ${humidity}%</span>
+            </div>
+        </div>
+    `;
+}
+
 // Fun Fact API Integration
 async function fetchFunFact() {
     const factSection = document.getElementById('fun-fact');
@@ -430,7 +607,6 @@ async function fetchFunFact() {
     if (!factContent) return;
     
     try {
-        // Fetch random fun fact from API
         const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
         
         if (!response.ok) {
@@ -443,16 +619,19 @@ async function fetchFunFact() {
             updateFunFactSection(data.text);
         } else {
             const fallbackFacts = [
-                "The human brain contains approximately 86 billion neurons."
+                "The human brain contains approximately 86 billion neurons.",
+                "A group of flamingos is called a 'flamboyance'.",
+                "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3000 years old."
             ];
             const randomFact = fallbackFacts[Math.floor(Math.random() * fallbackFacts.length)];
             updateFunFactSection(randomFact);
         }
     } catch (error) {
         console.log('Fun Fact API error:', error);
-        // Use fallback facts instead of showing error
         const fallbackFacts = [
-            "The human brain contains approximately 86 billion neurons."
+            "The human brain contains approximately 86 billion neurons.",
+            "A group of flamingos is called a 'flamboyance'.",
+            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3000 years old."
         ];
         const randomFact = fallbackFacts[Math.floor(Math.random() * fallbackFacts.length)];
         updateFunFactSection(randomFact);
@@ -485,7 +664,6 @@ async function fetchDailyQuote() {
     if (!quoteContent) return;
     
     try {
-        // Fetch inspirational quote from a more reliable API
         const response = await fetch('https://zenquotes.io/api/random');
         
         if (!response.ok) {
@@ -497,7 +675,6 @@ async function fetchDailyQuote() {
         if (data && data.length > 0 && data[0].q && data[0].a) {
             updateQuoteSection(data[0].q, data[0].a);
         } else {
-            // Fallback to a local quote if API fails
             const fallbackQuotes = [
                 { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
                 { quote: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
@@ -508,7 +685,6 @@ async function fetchDailyQuote() {
         }
     } catch (error) {
         console.log('Quote API error:', error);
-        // Use fallback quotes instead of showing error
         const fallbackQuotes = [
             { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
             { quote: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
@@ -539,7 +715,7 @@ function updateQuoteSection(quote, author) {
     `;
 }
 
-// State Management Functions
+// ==================== State Management Functions ====================
 function showLoadingState(container, message = 'Loading...') {
     container.innerHTML = `
         <div class="loading-state">
@@ -577,4 +753,164 @@ function showEmptyState(container, title, message) {
             <p>${message}</p>
         </div>
     `;
+}
+
+// Toast Notification System
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    
+    const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+    };
+    
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas ${icons[type] || icons.info} toast-icon"></i>
+            <span class="toast-message">${message}</span>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
+
+// ==================== Visitor Timer Functionality ====================
+function initializeVisitorTimer() {
+    const timerDisplay = document.getElementById('timer-display');
+    if (!timerDisplay) return;
+    
+    // Get start time from sessionStorage or set new one
+    let startTime = sessionStorage.getItem('visitStartTime');
+    if (!startTime) {
+        startTime = Date.now();
+        sessionStorage.setItem('visitStartTime', startTime);
+    } else {
+        startTime = parseInt(startTime);
+    }
+    
+    // Update timer every second
+    setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
+}
+
+// ==================== Visitor Name Storage ====================
+function initializeVisitorName() {
+    const saveNameBtn = document.getElementById('save-name-btn');
+    const nameInput = document.getElementById('visitor-name-input');
+    const greetingMessage = document.getElementById('greeting-message');
+    
+    // Load saved name
+    const savedName = localStorage.getItem('visitorName');
+    if (savedName) {
+        if (nameInput) nameInput.value = savedName;
+        updateGreetingMessage(savedName);
+    }
+    
+    if (saveNameBtn && nameInput) {
+        saveNameBtn.addEventListener('click', function() {
+            const name = nameInput.value.trim();
+            
+            if (name.length < 2) {
+                showToast('Please enter a name with at least 2 characters.', 'error');
+                return;
+            }
+            
+            localStorage.setItem('visitorName', name);
+            updateGreetingMessage(name);
+            updatePersonalizedGreeting();
+            showToast(`Welcome, ${name}!`, 'success');
+        });
+    }
+}
+
+function updateGreetingMessage(name) {
+    const greetingMessage = document.getElementById('greeting-message');
+    if (!greetingMessage) return;
+    
+    greetingMessage.innerHTML = `
+        <p class="greeting-text">Hello, <strong>${name}</strong>! Thanks for visiting.</p>
+    `;
+    greetingMessage.style.display = 'block';
+}
+
+// ==================== Section Toggle Functionality ====================
+function initializeSectionToggle() {
+    const toggleBtn = document.getElementById('toggle-projects');
+    const projectsContainer = document.getElementById('projects-container');
+    const toggleText = document.getElementById('toggle-text');
+    
+    if (!toggleBtn || !projectsContainer) return;
+    
+    // Load saved state
+    const isVisible = localStorage.getItem('projectsVisible') !== 'false';
+    if (!isVisible) {
+        projectsContainer.style.display = 'none';
+        if (toggleText) toggleText.textContent = 'Show Projects';
+    }
+    
+    toggleBtn.addEventListener('click', function() {
+        const isCurrentlyVisible = projectsContainer.style.display !== 'none';
+        
+        if (isCurrentlyVisible) {
+            projectsContainer.style.display = 'none';
+            if (toggleText) toggleText.textContent = 'Show Projects';
+            localStorage.setItem('projectsVisible', 'false');
+        } else {
+            projectsContainer.style.display = 'block';
+            if (toggleText) toggleText.textContent = 'Hide Projects';
+            localStorage.setItem('projectsVisible', 'true');
+        }
+    });
+}
+
+// ==================== Performance Optimization Functions ====================
+
+// Throttle function for scroll events
+function throttle(func, delay) {
+    let timeoutId;
+    let lastExecTime = 0;
+    
+    return function (...args) {
+        const currentTime = Date.now();
+        
+        if (currentTime - lastExecTime > delay) {
+            func.apply(this, args);
+            lastExecTime = currentTime;
+        } else {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+                lastExecTime = Date.now();
+            }, delay - (currentTime - lastExecTime));
+        }
+    };
+}
+
+// Debounce function for input events
+function debounce(func, delay) {
+    let timeoutId;
+    
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
 }

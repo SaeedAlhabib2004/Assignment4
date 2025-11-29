@@ -1744,3 +1744,224 @@ body {
 .visible {
     display: block;
 }
+
+/* Visitor Timer Styles */
+.visitor-timer {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.dark-theme .visitor-timer {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+}
+
+/* Weather Card Styles */
+.weather-content {
+    text-align: center;
+}
+
+.weather-card {
+    padding: 1rem;
+}
+
+.weather-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.temperature {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3b82f6;
+    margin-bottom: 0.5rem;
+}
+
+.dark-theme .temperature {
+    color: #60a5fa;
+}
+
+.description {
+    text-transform: capitalize;
+    color: #64748b;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.dark-theme .description {
+    color: #cbd5e1;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.dark-theme .weather-details {
+    color: #cbd5e1;
+}
+
+/* Sort Controls */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-controls label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.dark-theme .sort-controls label {
+    color: #cbd5e1;
+}
+
+.sort-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: white;
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dark-theme .sort-select {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+/* Toggle Section Button */
+.toggle-section-btn {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Visitor Name Section */
+.visitor-name-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+}
+
+.dark-theme .visitor-name-section {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.visitor-name-section label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.dark-theme .visitor-name-section label {
+    color: #f1f5f9;
+}
+
+.name-input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.name-input {
+    flex: 1;
+    padding: 0.875rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    background: white;
+    color: #1e293b;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dark-theme .name-input {
+    background: #334155;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+.save-name-btn {
+    padding: 0.875rem 1.5rem;
+    white-space: nowrap;
+}
+
+.greeting-message {
+    display: none;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.greeting-text {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Enhanced Project Controls Layout */
+.project-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .project-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .sort-controls {
+        width: 100%;
+    }
+    
+    .sort-select {
+        width: 100%;
+    }
+}
